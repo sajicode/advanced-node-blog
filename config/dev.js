@@ -1,6 +1,6 @@
 module.exports = {
-	googleClientID: '964808011168-29vqsooppd769hk90kjbjm5gld0glssb.apps.googleusercontent.com',
-	googleClientSecret: 'KnH-rZC23z4fr2CN4ISK4srN',
+	googleClientID: '403862610013-m4t8l3drle9j7fdrb2f72iog44vjhadt.apps.googleusercontent.com',
+	googleClientSecret: '5m18r7r-JCJQBa0nGoph0Hdb',
 	mongoURI: 'mongodb://saji:25tolife@ds145184.mlab.com:45184/blog_dev',
-	cookieKey: '123123123'
+	cookieKey: 'sepeteriaintsamiganja'
 };
