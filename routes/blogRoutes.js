@@ -5,6 +5,15 @@ const Blog = mongoose.model('Blog');
 
 module.exports = (app) => {
 	app.get('/api/blogs/:id', requireLogin, async (req, res) => {
+		const blog = await Blog.findOne({
+			_user: req.user.id,
+			_id: req.params.id
+		});
+
+		res.send(blog);
+	});
+
+	app.get('/api/blogs', requireLogin, async (req, res) => {
 		const redis = require('redis');
 		const redisUrl = 'redis://127.0.0.1:6379';
 		const client = redis.createClient(redisUrl);
@@ -17,21 +26,19 @@ module.exports = (app) => {
 		const cachedBlogs = await client.get(req.user.id);
 
 		// if yes, respond to the request right away and return
+		if (cachedBlogs) {
+			console.log('serving from cache');
+			return res.send(JSON.parse(cachedBlogs));
+		}
 
 		// if no, respind to the request and update cache to store the data
 
-		const blog = await Blog.findOne({
-			_user: req.user.id,
-			_id: req.params.id
-		});
-
-		res.send(blog);
-	});
-
-	app.get('/api/blogs', requireLogin, async (req, res) => {
 		const blogs = await Blog.find({ _user: req.user.id });
 
+		console.log('serving from mongodb');
 		res.send(blogs);
+
+		client.set(req.user.id, JSON.stringify(blogs));
 	});
 
 	app.post('/api/blogs', requireLogin, async (req, res) => {
