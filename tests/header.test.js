@@ -5,14 +5,14 @@ let browser, page;
 beforeEach(async () => {
 	browser = await puppeteer.launch({
 		headless: false,
-		args: [ '--no-sandbox', '--disable-setuid-sandbox' ]
+		args: [ '--no-sandbox' ]
 	});
 	page = await browser.newPage();
 	await page.goto('localhost:3000');
 });
 
 afterEach(async () => {
-	await browser.close();
+	// await browser.close();
 });
 // all operations with puppeteer are async
 test('the header has the correct test', async () => {
@@ -21,7 +21,7 @@ test('the header has the correct test', async () => {
 	expect(text).toEqual('Blogster');
 });
 
-test('clicking login starts oauth flow', async () => {
+test.only('clicking login starts oauth flow', async () => {
 	await page.click('.right a');
 
 	const url = await page.url();
@@ -46,5 +46,8 @@ test('when signed in, shows logout button', async () => {
 	const keygrip = new Keygrip([ keys.cookieKey ]);
 	const sig = keygrip.sign('session=' + sessionString);
 
-	console.log(sessionString, sig);
+	// set cookies on chromium header
+	await page.setCookie({ name: 'session', value: sessionString });
+	await page.setCookie({ name: 'session.sig', value: sig });
+	await page.goto('localhost:3000');
 });
