@@ -2,5 +2,5 @@ node_modules
 nohup.out
 .DS_Store
 dump.rdb
-dev.js
-config/dev.js
+devs.js
+github.png
