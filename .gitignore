@@ -3,4 +3,5 @@ nohup.out
 .DS_Store
 dump.rdb
 devs.js
+ci.js
 github.png
