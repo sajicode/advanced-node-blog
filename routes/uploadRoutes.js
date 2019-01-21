@@ -17,7 +17,8 @@ module.exports = (app) => {
 			{
 				Bucket: 'dev-blog-bucket-2345',
 				ContentType: 'image/jpeg',
-				Key: key
+				Key: key,
+				ACL: 'bucket-owner-full-control'
 			},
 			(err, url) => res.send({ key, url })
 		);
